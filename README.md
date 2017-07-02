@@ -1,4 +1,3 @@
 # hello-world
-Testing GitHub
 
-Lorem Ipsum!
+Repository to place all sorts of code I use or work on.
