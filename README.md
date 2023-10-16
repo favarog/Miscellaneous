@@ -1,3 +1,3 @@
-# hello-world
+# mMiscellaneous
 
-Repository to place all sorts of code I use or work on.
+Repository to place all sorts of isolated code I made.
