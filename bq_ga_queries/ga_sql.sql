@@ -142,7 +142,7 @@ WHERE user_pseudo_id = "4FB627689F2B45B68BEE56E60D9D7B5D"
 GROUP BY ALL
 
 
--- QUERY FINAL ---------------
+-- query principal ---------------
 WITH Q1 AS (
 SELECT
 PARSE_DATE('%Y%m%d', event_date) AS data,
