@@ -143,27 +143,3 @@ GROUP BY ALL
 
 
 -- query principal ---------------
-WITH Q1 AS (
-SELECT
-PARSE_DATE('%Y%m%d', event_date) AS data,
-user_pseudo_id,
-CASE WHEN REGEXP_CONTAINS(event_name, "screen_view") AND REGEXP_CONTAINS(p.key, "firebase_screen$")  THEN p.value.string_value END AS tela,
-CASE WHEN REGEXP_CONTAINS(event_name, "hero_userdata") AND REGEXP_CONTAINS(p.key, "user_type") THEN p.value.string_value END AS tipo_usuario,
-CASE WHEN REGEXP_CONTAINS(event_name, "hero_userdata") AND REGEXP_CONTAINS(p.key, "user_id") THEN p.value.string_value END AS hash_cpf,
-app_info.version AS app_version,
-device.operating_system AS sistema_operacional,
-
-FROM `eai-datalake-prd.analytics_418484798.events_202*`, UNNEST(event_params) as p
-GROUP BY ALL
-)
-
-SELECT 
-data,
-user_pseudo_id,
-tela,
-IFNULL(LAST_VALUE(hash_cpf) OVER (PARTITION BY user_pseudo_id ORDER BY hash_cpf ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING),"nao_identificado") AS hash_cpf,
-IFNULL(LAST_VALUE(tipo_usuario) OVER (PARTITION BY user_pseudo_id ORDER BY tipo_usuario ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING),"nao_identificado") AS tipo_usuario,
-app_version,
-sistema_operacional
-FROM Q1
-QUALIFY tela IS NOT NULL AND REGEXP_CONTAINS(tela, "onboarding")
