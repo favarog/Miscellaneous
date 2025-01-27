@@ -10,6 +10,7 @@ geo.region,
 geo.city,
 
 
-FROM `gtm-mc933sgm-n2m1n.analytics_314538299.events_202*`
+FROM `gtm-mc933sgm-n2m1n.analytics_314538299.events_*`
+WHERE _TABLE_SUFFIX = FORMAT_DATE('%Y%m%d',DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY))
 GROUP BY ALL
 HAVING pagina IS NOT NULL AND utm_medium = "organic"
